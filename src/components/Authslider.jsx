@@ -6,6 +6,7 @@ import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { useNavigate } from "react-router-dom"
 
+
 const AuthSlider = () => {
   const [isSignIn, setIsSignIn] = useState(true)
   const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cpassword: "" })
@@ -18,7 +19,7 @@ const AuthSlider = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault()
-    const url = isSignIn ? "http://localhost:5000/api/auth/login" : "http://localhost:5000/api/auth/createuser"
+    const url = isSignIn ? "https://mynotes-manager-backend.onrender.com/api/auth/login" : "https://mynotes-manager-backend.onrender.com/api/auth/createuser"
 
     const body = isSignIn
       ? { email: credentials.email, password: credentials.password }

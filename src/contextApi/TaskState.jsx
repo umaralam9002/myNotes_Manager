@@ -4,7 +4,7 @@ import { useState } from "react";
 
 function TaskState(props) {
 
-  const host = "http://localhost:5000"
+  const host = "https://mynotes-manager-backend.onrender.com"
   const notesInitial = []
   const [tasks, setTasks] = useState(notesInitial)
   const [users, setUser] = useState(null);
@@ -22,6 +22,7 @@ function TaskState(props) {
       }
     });
     const json = await response.json()
+    console.log(json.user)
     setUser(json.user)
   }
 
@@ -163,8 +164,34 @@ function TaskState(props) {
       }
     };
 
+    const markTaskAsDone = async (id) => {
+      try {
+        const response = await fetch(`${host}/api/tasks/markdone/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            "auth-token": localStorage.getItem('token')
+          }
+        });
+    
+        const json = await response.json();
+    
+        if (json.success) {
+          // Update the specific task's isDone property in state
+          setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task._id === id ? { ...task, isDone: true } : task
+            )
+          );
+        }
+      } catch (error) {
+        console.error("Error marking task as done:", error);
+      }
+    };
+    
+
   return (
-   <taskContext.Provider value={{users,tasks,getUserDetails, addTask, deleteTask,editTask, getTasks, specificTasks}} >
+    <taskContext.Provider value={{ users, tasks, getUserDetails, addTask, deleteTask, editTask, getTasks, specificTasks, markTaskAsDone }}>
     {props.children}
    </taskContext.Provider>
   )

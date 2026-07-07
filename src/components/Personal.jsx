@@ -4,7 +4,7 @@ import taskContext from "../contextApi/TaskContext";
 
 function Personal() {
   const context = useContext(taskContext);
-  const { tasks, specificTasks, deleteTask, editTask } = context;
+  const { tasks, specificTasks, deleteTask, editTask,markTaskAsDone } = context;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,6 +45,7 @@ function Personal() {
             task={task}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            markTaskAsDone={markTaskAsDone}
           />
         ))
       ) : (
